@@ -1,6 +1,7 @@
 # Race to finish MVP
 
 ## Summary
+A game of reaction speed where you lead a `Player` to the `Goal` a certain number of times in a time limit. Each `Round` the difficulty increases.
 
 ## Definitions
 1) `Race`
