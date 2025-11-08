@@ -42,10 +42,6 @@ async fn main() {
 fn screen_dimensions() -> Vec2 {
     vec2(screen_width(), screen_height())
 }
-/// Returns the origin of the screen in pixels as a [Vec2]
-fn screen_origin() -> Vec2 {
-    screen_dimensions() / 2.0
-}
 
 /// Generates a random point that is on screen
 fn random_point(low: Vec2, high: Vec2) -> Vec2 {
