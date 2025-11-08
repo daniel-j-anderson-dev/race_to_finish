@@ -55,9 +55,9 @@ fn random_point(low: Vec2, high: Vec2) -> Vec2 {
 }
 
 fn start_race() -> (Rect, Rect) {
-    let player = spawn_entity_hitbox(PLAYER_SCALE);
+    let player = spawn_hitbox(PLAYER_SCALE);
     let goal = loop {
-        let goal = spawn_entity_hitbox(PLAYER_SCALE);
+        let goal = spawn_hitbox(PLAYER_SCALE);
         if !goal.overlaps(&player) {
             break goal;
         }
@@ -66,14 +66,11 @@ fn start_race() -> (Rect, Rect) {
 }
 
 /// Returns a rectangle at a random position whose size is proportional to the smallest screen dimension
-fn spawn_entity_hitbox(scale: f32) -> Rect {
+fn spawn_hitbox(scale: f32) -> Rect {
     let screen_dimensions = screen_dimensions();
     let size = (screen_dimensions * scale).min_element();
-    let Vec2 {
-        x: player_x,
-        y: player_y,
-    } = random_point(Vec2::ZERO, screen_dimensions - Vec2::splat(size));
-    Rect::new(player_x, player_y, size, size)
+    let Vec2 { x, y } = random_point(Vec2::ZERO, screen_dimensions - Vec2::splat(size));
+    Rect::new(x, y, size, size)
 }
 
 /// draws the player [Rect] with no offset with the [PLAYER_COLOR]
