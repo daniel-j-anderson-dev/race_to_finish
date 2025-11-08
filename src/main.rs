@@ -4,6 +4,7 @@ use macroquad::{
     rand::{gen_range, srand},
 };
 
+const GOAL_COLOR: Color = RED;
 const PLAYER_COLOR: Color = GREEN;
 const PLAYER_SCALE: f32 = 0.1;
 const PLAYER_CONTROLS: Controls = Controls {
@@ -23,15 +24,20 @@ async fn main() {
     srand(date::now() as _);
 
     // initialize game state
-    let mut player = spawn_player(PLAYER_SCALE);
+    let (mut player, mut goal) = start_race();
 
     // main game loop
     loop {
         // draw
-        clear_background(WHITE);
-        draw_player(player, PLAYER_COLOR);
+        clear_background(BLACK);
+        draw_rectangle(player, PLAYER_COLOR);
+        draw_rectangle(goal, GOAL_COLOR);
 
         handle_input(&mut player, PLAYER_CONTROLS);
+
+        if goal.overlaps(&player) {
+            (player, goal) = start_race()
+        }
 
         // tell macroquad our logic for this frame is done
         next_frame().await;
@@ -48,19 +54,30 @@ fn random_point(low: Vec2, high: Vec2) -> Vec2 {
     vec2(gen_range(low.x, high.x), gen_range(low.y, high.y))
 }
 
+fn start_race() -> (Rect, Rect) {
+    let player = spawn_entity_hitbox(PLAYER_SCALE);
+    let goal = loop {
+        let goal = spawn_entity_hitbox(PLAYER_SCALE);
+        if !goal.overlaps(&player) {
+            break goal;
+        }
+    };
+    (player, goal)
+}
+
 /// Returns a rectangle at a random position whose size is proportional to the smallest screen dimension
-fn spawn_player(player_scale: f32) -> Rect {
+fn spawn_entity_hitbox(scale: f32) -> Rect {
     let screen_dimensions = screen_dimensions();
-    let player_size = (screen_dimensions * player_scale).min_element();
+    let size = (screen_dimensions * scale).min_element();
     let Vec2 {
         x: player_x,
         y: player_y,
-    } = random_point(Vec2::ZERO, screen_dimensions - Vec2::splat(player_size));
-    Rect::new(player_x, player_y, player_size, player_size)
+    } = random_point(Vec2::ZERO, screen_dimensions - Vec2::splat(size));
+    Rect::new(player_x, player_y, size, size)
 }
 
 /// draws the player [Rect] with no offset with the [PLAYER_COLOR]
-fn draw_player(player: Rect, color: Color) {
+fn draw_rectangle(player: Rect, color: Color) {
     draw_rectangle_ex(
         player.x,
         player.y,
