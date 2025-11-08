@@ -13,7 +13,8 @@ A game of reaction speed where you lead a `Player` to the `Goal` a certain numbe
         1) certain number of `Race`s and a time limit to complete them in
         2) a time limit to complete all the `Race`s in
     2) after each round up to some limit.
-        1) The size of `Player` and `Goal` should decrease
+        1) The size of `Player` and `Goal` will decrease
+        2) The time limit for the next `Round` will decrease
     3) As soon as a `Race` ends the next one should start immediately
 
 
