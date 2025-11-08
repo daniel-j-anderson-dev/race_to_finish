@@ -2,7 +2,6 @@
 
 ## Summary
 
-
 ## Definitions
 1) `Race`
     1) Starts by spawning a `Player` and a `Goal` entity
@@ -12,6 +11,10 @@
     1) consists of
         1) certain number of `Race`s and a time limit to complete them in
         2) a time limit to complete all the `Race`s in
+    2) after each round up to some limit.
+        1) The size of `Player` and `Goal` should decrease
+    3) As soon as a `Race` ends the next one should start immediately
+
 
 3) `Collision`, `Collide`
     1) When the rectangle's of any two `Hitbox`es overlap
